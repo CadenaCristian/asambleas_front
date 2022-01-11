@@ -1,0 +1,68 @@
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Header from '../common/header';
+import { LoginService } from '../../axios/petition';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Swal from 'sweetalert2';
+
+const Login = () => {
+
+    const navigate = useNavigate();
+    const [dataUserValue, setdataUserValue] = useState({ name: "", password: "" })
+    const { name, password } = dataUserValue;
+    const [sppiner, setSpinner] = useState(false);
+
+    const credentials = ({ target }) => {
+        setdataUserValue({
+            ...dataUserValue,
+            [target.name]: target.value,
+        });
+    }
+
+    const login = async () => {
+        const resp = await LoginService(dataUserValue);
+        setSpinner(true)
+        if (resp.status === 200 && resp.data.token !== '') {
+            Swal.fire('alert', 'Bienvenido!', 'success');
+            localStorage.setItem('Token', resp.data.token);
+            localStorage.setItem('userName', resp.data.userName);
+            navigate('/assemblies');
+        } else {
+            Swal.fire('alert', 'Los datos ingresados son incorrectos!', 'error');
+            setSpinner(false)
+        }
+    }
+
+    return (
+        <div>
+            <div className='conatiner'>
+                <div className='row'>
+                    <Header />
+                </div>
+                <div className='row mt-5'>
+                    <div className='col-md-4 offset-4'>
+                        <form>
+                            <div className="mb-3">
+                                <label for="exampleInputEmail1" className="form-label">Usuario</label>
+                                <input type="text" className="form-control" name='name' onChange={credentials} value={name} />
+                                <div id="emailHelp" className="form-text">We'll never share your email with anyone else.</div>
+                            </div>
+                            <div className="mb-3">
+                                <label for="exampleInputPassword1" className="form-label">Contraseña</label>
+                                <input type="password" className="form-control" name='password' onChange={credentials} value={password} />
+                            </div>
+                            <div className="text-center">
+                                <button type="button" className="btn btn-primary" onClick={login}>
+                                    {sppiner === false ?
+                                        "Iniciar sesión" : <span class="spinner-border text-light" role="status" />}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
+}
+
+export default Login;

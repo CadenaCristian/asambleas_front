@@ -1,0 +1,1 @@
+export const apiAddress = 'https://aictu4c7xj.execute-api.us-east-1.amazonaws.com/dev/';
