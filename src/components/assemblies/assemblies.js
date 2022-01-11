@@ -2,6 +2,7 @@ import React from 'react';
 import { ZoomMtg } from '@zoomus/websdk';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { JoinMeeting } from '../../axios/petition';
+import { apiAddress } from '../../api/api';
 
 ZoomMtg.setZoomJSLib('https://source.zoom.us/2.0.1/lib', '/av');
 
@@ -12,11 +13,11 @@ ZoomMtg.i18n.reload('en-US');
 
 const Assambles = () => {
 
-    var signatureEndpoint = 'http://localhost:4000'
+    var signatureEndpoint = `${apiAddress}:4000`
     var apiKey = 'DPKdg-EgRQOozYEH5Rh1MA'
-    var meetingNumber = '84002877750'
+    var meetingNumber = '84853149225'
     var role = 0
-    var leaveUrl = 'http://localhost:3000'
+    var leaveUrl = 'https://master.d217lwn8yomjor.amplifyapp.com:3000'
     var userName = localStorage.getItem('userName')
     var userEmail = 'cristilopezca@gmail.com'
     var passWord = 'dwadadw221'
