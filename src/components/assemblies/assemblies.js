@@ -69,7 +69,7 @@ const Assambles = () => {
     }
 
     return (
-        <div className="App">
+        <div className="container text-center">
             <main>
                 <h1>Zoom Meeting SDK Sample React</h1>
 
