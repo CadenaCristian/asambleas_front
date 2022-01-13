@@ -1,8 +1,9 @@
 import React from 'react';
 import { ZoomMtg } from '@zoomus/websdk';
 import 'bootstrap/dist/css/bootstrap.min.css'
-import { JoinMeeting } from '../../axios/petition';
+import { GetAllQuestions, JoinMeeting } from '../../axios/assamblesPetition';
 import { apiAddress } from '../../api/api';
+import Header from '../common/header';
 
 ZoomMtg.setZoomJSLib('https://source.zoom.us/2.0.1/lib', '/av');
 
@@ -19,8 +20,8 @@ const Assambles = () => {
     var role = 0
     var leaveUrl = 'https://master.d217lwn8yomjor.amplifyapp.com:3000'
     var userName = localStorage.getItem('userName')
-    var userEmail = 'cristilopezca@gmail.com'
-    var passWord = 'dwadadw221'
+    var userEmail = ''
+    var passWord = ''
     var registrantToken = ''
 
     const getSignature = async (e) => {
@@ -69,13 +70,30 @@ const Assambles = () => {
         })
     }
 
+    const getQuestiosn = async () => {
+        const resp = await GetAllQuestions();
+        console.log("resp: ", resp)
+    }
+
     return (
         <div className="container text-center">
-            <main>
-                <h1>Zoom Meeting SDK Sample React</h1>
+            <div className='row'>
+                <Header />
+            </div>
+            <div className='row justify-content-md-center mt-3'>
+                <div className='col-md-6'><button className='btn btn-outline-primary col-md-6'>VER VOTACIÓN</button></div>
+                <div className='col-md-6'><button className='btn btn-outline-primary col-md-6'>VER QUORUM</button></div>
+            </div>
+            <div className='row mt-3'>
+                <main>
+                    <h1>Reunión por zoom</h1>
 
-                <button className='btn btn-primary' onClick={getSignature}>Join Meeting</button>
-            </main>
+                    <button className='btn btn-primary' onClick={getSignature}>Unirse a la reunión</button>
+                </main>
+            </div>
+            <div className='row mt-3'>
+                <button className='btn btn-primary' onClick={getQuestiosn} >Obtener usuarios</button>
+            </div>
         </div>
     );
 }

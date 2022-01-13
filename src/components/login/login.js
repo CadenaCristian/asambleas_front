@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '../common/header';
-import { LoginService } from '../../axios/petition';
+import { LoginService } from '../../axios/usersPetition';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Swal from 'sweetalert2';
 
@@ -51,10 +51,10 @@ const Login = () => {
                                 <input type="password" className="form-control" name='password' onChange={credentials} value={password} />
                             </div>
                             <div className="text-center">
-                                <button type="button" className="btn btn-primary" onClick={login}>
-                                    {sppiner === false ?
-                                        "Iniciar sesión" : <span class="spinner-border text-light" role="status" />}
-                                </button>
+                                {sppiner === false ? <button type="button" className="btn btn-primary" onClick={login}>
+                                    Iniciar sesión </button> :
+                                    <button><span class="spinner-border text-light" role="status" /></button>
+                                }
                             </div>
                         </form>
                     </div>
