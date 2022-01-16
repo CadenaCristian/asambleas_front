@@ -32,6 +32,7 @@ const Users = () => {
                                 <th>Email</th>
                                 <th>Rol</th>
                                 <th>¿Puede vota?</th>
+                                <th>Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -39,6 +40,11 @@ const Users = () => {
                                 <td>Mark</td>
                                 <td>Otto</td>
                                 <td>@mdo</td>
+                                <td>@mdo</td>
+                                <td>
+                                    <button className='btn btn-warning'>Edit</button>
+                                    <button className='btn btn-danger'>Delete</button>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
