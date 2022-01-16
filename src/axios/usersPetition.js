@@ -13,3 +13,13 @@ export const LoginService = (obj) => {
         .then(res => res)
         .catch(err => err)
 }
+
+export const getAllusers = () => {
+    return axios.get(`${apiAddress}users`, {
+        headers: {
+            'Accept': 'application/json', 'Content-Type': 'application/json', 'authorization': localStorage.getItem('Token')
+        }
+    })
+        .then(res => res.data)
+        .catch(err => err)
+}

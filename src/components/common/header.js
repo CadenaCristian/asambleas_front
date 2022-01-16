@@ -3,8 +3,10 @@ import Logo from '../../assets/logo.jpg';
 
 const Header = () => {
     return (
-        <div>
-            <img src={Logo} alt="logo" style={{ width: '50%', margin: '0% 25% 0 25%' }} />
+        <div className='container-fluid'>
+            <div className='row justify-content-center'>
+                <img src={Logo} alt="logo" style={{ width: '20%' }} />
+            </div>
         </div>
     )
 }

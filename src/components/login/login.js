@@ -4,6 +4,7 @@ import Header from '../common/header';
 import { LoginService } from '../../axios/usersPetition';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Swal from 'sweetalert2';
+import Footer from '../common/footer';
 
 const Login = () => {
 
@@ -26,7 +27,7 @@ const Login = () => {
             Swal.fire('alert', 'Bienvenido!', 'success');
             localStorage.setItem('Token', resp.data.token);
             localStorage.setItem('userName', resp.data.userName);
-            navigate('/assemblies');
+            { resp.data.rol === 'admin' ? navigate('/adminPanel') : navigate('/assemblies') };
         } else {
             Swal.fire('alert', 'Los datos ingresados son incorrectos!', 'error');
             setSpinner(false)
@@ -35,11 +36,11 @@ const Login = () => {
 
     return (
         <div>
-            <div className='conatiner'>
+            <div className='conatiner-fluid'>
                 <div className='row'>
                     <Header />
                 </div>
-                <div className='row mt-5'>
+                <div className='row mt-5' style={{ minHeight: '75vh' }}>
                     <div className='col-md-4 offset-4'>
                         <form>
                             <div className="mb-3">
@@ -59,6 +60,7 @@ const Login = () => {
                         </form>
                     </div>
                 </div>
+                <Footer />
             </div>
         </div>
     )
