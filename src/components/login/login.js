@@ -21,12 +21,14 @@ const Login = () => {
     }
 
     const login = async () => {
-        const resp = await LoginService(dataUserValue);
         setSpinner(true)
+        const resp = await LoginService(dataUserValue);
         if (resp.status === 200 && resp.data.token !== '') {
             Swal.fire('alert', 'Bienvenido!', 'success');
             localStorage.setItem('Token', resp.data.token);
             localStorage.setItem('userName', resp.data.userName);
+            localStorage.setItem('groupId', resp.data.groupId);
+            localStorage.setItem('idMeeting', resp.data.idMeeting);
             { resp.data.rol === 'admin' ? navigate('/adminPanel') : navigate('/assemblies') };
         } else {
             Swal.fire('alert', 'Los datos ingresados son incorrectos!', 'error');
@@ -52,10 +54,11 @@ const Login = () => {
                                 <input type="password" className="form-control" name='password' onChange={credentials} value={password} />
                             </div>
                             <div className="text-center">
-                                {sppiner === false ? <button type="button" className="btn btn-primary" onClick={login}>
-                                    Iniciar sesión </button> :
-                                    <button><span class="spinner-border text-light" role="status" /></button>
-                                }
+                                <button type="button" className="btn btn-primary" onClick={login}>
+                                    {sppiner === false ?
+                                        'Iniciar sesión' : <span className="spinner-border text-light" role="status" />
+                                    }
+                                </button>
                             </div>
                         </form>
                     </div>

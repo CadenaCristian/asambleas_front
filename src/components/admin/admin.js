@@ -5,7 +5,7 @@ import AdminMenu from './adminMenu';
 
 const Admin = () => {
     return (
-        <div className='container'>
+        <div className='container-fluid'>
             <div className='row'>
                 <Header />
             </div>

@@ -32,7 +32,7 @@ const AdminMenu = () => {
     }
 
     return (
-        <div className='container-fluid'>
+        <div className='container'>
             <div className='row justify-content-center'>
                 <button type='button' className='col-md-3 m-3 btn btn-success' onClick={showUsersModule}>Usuarios</button>
                 <button type='button' className='col-md-3 m-3 btn btn-success' onClick={showGroupingModule}>Asambleas</button>
@@ -42,11 +42,11 @@ const AdminMenu = () => {
                 <div style={{ display: usersModule }}><Users /></div>
                 <div style={{ display: reportsModule }}><Reports /></div>
                 <div style={{ display: groupingsModule }}><Groupings /></div>
-                <div style={{ display: messageInitial }} class="alert alert-warning mt-5" role="alert">
+                <div style={{ display: messageInitial }} className="alert alert-warning mt-5" role="alert">
                     Por favor seleccione un modulo
                 </div>
             </div>
-        </div>
+        </div >
     )
 }
 

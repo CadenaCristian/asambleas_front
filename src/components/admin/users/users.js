@@ -9,8 +9,8 @@ const Users = () => {
     const listUsers = async () => {
         const resp = await getAllusers();
         setUsers(resp);
+        console.log("users: ", users.data);
     }
-    console.log("users: ", users.data);
 
 
     useEffect(() => {
@@ -18,36 +18,42 @@ const Users = () => {
     }, [])
 
     return (
-        <div className='container-fluid'>
+        <div className='container-fluid' style={{ height: '70vh', overflow: 'auto' }}>
+            <button className='btn btn-outline-primary col-md-12'> Añadir un nuevo usuario</button>
             {
                 users === [] ?
-                    <div className="alert alert-warning" role="alert">
-                        No hay usuarios por el momento!
+                    <div className='row'>
+                        <div className="alert alert-warning col-md-2" role="alert">
+                            No hay usuarios por el momento!
+                        </div>
                     </div>
                     :
-                    <table className="table table-hover">
-                        <thead>
-                            <tr>
-                                <th>Nombre</th>
-                                <th>Email</th>
-                                <th>Rol</th>
-                                <th>¿Puede vota?</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>@mdo</td>
-                                <td>@mdo</td>
-                                <td>
-                                    <button className='btn btn-warning'>Edit</button>
-                                    <button className='btn btn-danger'>Delete</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div className='row'>
+                        <table className="table table-hover text-center">
+                            <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Email</th>
+                                    <th>Rol</th>
+                                    <th>¿Puede vota?</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {users.data?.map((dat, index) =>
+                                    <tr key={index}>
+                                        <td>{dat.name}</td>
+                                        <td>{dat.email}</td>
+                                        <td>{dat.rol}</td>
+                                        <td>{dat.vote === true ? "SI" : "NO"}</td>
+                                        <td>
+                                            <button className='btn btn-warning col-md-6'>Edit</button>
+                                            <button className='btn btn-danger col-md-6'>Delete</button>
+                                        </td>
+                                    </tr>)}
+                            </tbody>
+                        </table>
+                    </div>
             }
         </div>
     )
