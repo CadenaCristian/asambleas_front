@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import BootstrapSwitchButton from 'bootstrap-switch-button-react';
 import { GetAllGroups } from '../../../axios/groupsPetition';
 import { GetAllQuestions, GetAllQuestionsById, UpdateQuestionById } from '../../../axios/assamblesPetition';
 
@@ -10,6 +11,7 @@ const Groupings = () => {
     const listGroups = async () => {
         const resp = await GetAllGroups();
         setGroups(resp);
+        console.log("resp: ", resp)
     }
 
     const listQuestionsById = async (e) => {
@@ -17,14 +19,15 @@ const Groupings = () => {
         setAssambles(resp)
     }
 
-    const UpdateQuestionState = (id) => {
-        console.log("UpdateQuestionState: ", id)
-        // const resp = await UpdateQuestionById(e.target.id)
+    const UpdateQuestionState = async (id, state) => {
+        state = state === true ? false : true
+        let obj = {
+            "state": state
+        }
+        const resp = await UpdateQuestionById(id, obj)
         // setAssambles(resp);
     }
 
-    console.log("assambles: ", assambles)
-    console.log("groups: ", groups)
     useEffect(() => {
         listGroups();
     }, [])
@@ -75,10 +78,15 @@ const Groupings = () => {
                                 </h2>
                                 <div id={`collapse${index}`} className="accordion-collapse collapse hide" aria-labelledby={`heading${index}`} data-bs-parent={`#accordion${index}`}>
                                     <div className="accordion-body">
-                                        <div class="form-check form-switch">
-                                            <input class="form-check-input" type="checkbox" role="switch" id={`flexSwitchCheckDefault${index}`} onChange={UpdateQuestionState(dat._id)} checked={dat.state} />
-                                            <label class="form-check-label" for={`flexSwitchCheckDefault${index}`}>Visibilidad de la votación</label>
-                                        </div>
+                                        <BootstrapSwitchButton
+                                            checked={dat.state}
+                                            onlabel='Activo'
+                                            onstyle='success'
+                                            offlabel='Inactivo'
+                                            offstyle='danger'
+                                            width={100}
+                                            onChange={() => { UpdateQuestionState(dat._id, dat.state) }}
+                                        />
                                         <table className="table table-hover text-center">
                                             <thead>
                                                 <tr>

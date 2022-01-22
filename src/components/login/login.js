@@ -25,10 +25,15 @@ const Login = () => {
         const resp = await LoginService(dataUserValue);
         if (resp.status === 200 && resp.data.token !== '') {
             Swal.fire('alert', 'Bienvenido!', 'success');
-            localStorage.setItem('Token', resp.data.token);
-            localStorage.setItem('userName', resp.data.userName);
-            localStorage.setItem('groupId', resp.data.groupId);
-            localStorage.setItem('idMeeting', resp.data.idMeeting);
+            localStorage.setItem('userData', JSON.stringify({
+                '_id': resp.data._id,
+                'rol': resp.data.rol,
+                'name': resp.data.name,
+                'token': resp.data.token,
+                'userName': resp.data.userName,
+                'groupId': resp.data.groupId,
+                'idMeeting': resp.data.idMeeting
+            }));
             { resp.data.rol === 'admin' ? navigate('/adminPanel') : navigate('/assemblies') };
         } else {
             Swal.fire('alert', 'Los datos ingresados son incorrectos!', 'error');

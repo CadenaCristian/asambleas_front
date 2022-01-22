@@ -15,9 +15,10 @@ export const LoginService = (obj) => {
 }
 
 export const getAllusers = () => {
+    const userData = JSON.parse(localStorage.getItem('userData'));
     return axios.get(`${apiAddress}users`, {
         headers: {
-            'Accept': 'application/json', 'Content-Type': 'application/json', 'authorization': localStorage.getItem('Token')
+            'Accept': 'application/json', 'Content-Type': 'application/json', 'authorization': userData.token
         }
     })
         .then(res => res.data)
