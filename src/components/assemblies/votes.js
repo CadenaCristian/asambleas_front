@@ -22,6 +22,8 @@ const Votes = () => {
         const resp = await SaveVote(idQuestion, choise);
         if (resp.status === "200") {
             Swal.fire('alert', `${resp.message}`, 'success');
+            let link = document.getElementById('btn-close');
+            link.click();
         } else {
             Swal.fire('alert', `${resp.message}`, 'danger');
         }
@@ -58,8 +60,8 @@ const Votes = () => {
                     )}
             </div>
             <div className='row justify-content-center'>
-                <button type="button" className="btn btn-secondary m-3 col-md-4" data-bs-dismiss="modal">Close</button>
-                <button type="button" className="btn btn-primary m-3 col-md-4" data-bs-dismiss="modal" onClick={() => saveVote()}>Save changes</button>
+                <button type="button" id="btn-close" className="btn btn-secondary m-3 col-md-4" data-bs-dismiss="modal">Close</button>
+                <button type="button" className="btn btn-primary m-3 col-md-4" onClick={() => saveVote()}>Save changes</button>
             </div>
         </div>
     )
