@@ -21,7 +21,7 @@ const Assambles = () => {
     var apiKey = 'DPKdg-EgRQOozYEH5Rh1MA'
     var meetingNumber = userData.idMeeting
     var role = 0
-    // // var leaveUrl = 'https://master.d217lwn8yomjor.amplifyapp.com/'
+    var leaveUrl = 'https://master.d217lwn8yomjor.amplifyapp.com/'
     // var leaveUrl = 'http://localhost:3000'
     var userName = userData.userName
     var userEmail = ''
