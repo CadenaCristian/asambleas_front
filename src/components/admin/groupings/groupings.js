@@ -27,8 +27,6 @@ const Groupings = () => {
         const resp = await UpdateQuestionById(id, obj)
         // setAssambles(resp);
     }
-    console.log("groups: ", groups)
-    console.log("assambles: ", assambles)
     useEffect(() => {
         listGroups();
     }, [])

@@ -32,11 +32,11 @@ const AdminMenu = () => {
     }
 
     return (
-        <div className='container'>
+        <div className='container-fluid'>
             <div className='row justify-content-center'>
-                <button type='button' className='col-md-3 m-3 btn btn-success' onClick={showUsersModule}>Usuarios</button>
-                <button type='button' className='col-md-3 m-3 btn btn-success' onClick={showGroupingModule}>Asambleas</button>
-                <button type='button' className='col-md-3 m-3 btn btn-success' onClick={showReportsModule}>Reportes</button>
+                <button type='button' className='col-md-3 m-2 btn btn-success' onClick={showUsersModule}>Usuarios</button>
+                <button type='button' className='col-md-3 m-2 btn btn-success' onClick={showGroupingModule}>Asambleas</button>
+                <button type='button' className='col-md-3 m-2 btn btn-success' onClick={showReportsModule}>Reportes</button>
             </div>
             <div className='row'>
                 <div style={{ display: usersModule }}><Users /></div>

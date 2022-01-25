@@ -1,4 +1,4 @@
 //PRODUCCIÓN
-export const apiAddress = 'https://jasgztgg0j.execute-api.us-east-1.amazonaws.com/dev/';
+export const apiAddress = 'https://jasgztgg0j.execute-api.us-east-1.amazonaws.com/dev';
 //DESARROLLO
-// export const apiAddress = 'http://localhost:3000/dev/';
+// export const apiAddress = 'http://localhost:4000/dev/';

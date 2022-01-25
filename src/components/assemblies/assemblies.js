@@ -6,21 +6,24 @@ import { apiAddress } from '../../api/api';
 import Header from '../common/header';
 import Votes from './votes';
 
-ZoomMtg.setZoomJSLib('https://source.zoom.us/2.0.1/lib', '/av');
+
+ZoomMtg.setZoomJSLib('https://source.zoom.us/2.1.1/lib', '/av');
 
 ZoomMtg.preLoadWasm();
 ZoomMtg.prepareWebSDK();
+// loads language files, also passes any error messages to the ui
 ZoomMtg.i18n.load('en-US');
 ZoomMtg.i18n.reload('en-US');
 
 const Assambles = () => {
 
-    var signatureEndpoint = `${apiAddress}:4000`
+    var userData = JSON.parse(localStorage.getItem('userData'))
     var apiKey = 'DPKdg-EgRQOozYEH5Rh1MA'
-    var meetingNumber = localStorage.getItem('idMeeting')
+    var meetingNumber = userData.idMeeting
     var role = 0
-    var leaveUrl = 'https://master.d217lwn8yomjor.amplifyapp.com:3000'
-    var userName = localStorage.getItem('userName')
+    // // var leaveUrl = 'https://master.d217lwn8yomjor.amplifyapp.com/'
+    // var leaveUrl = 'http://localhost:3000'
+    var userName = userData.userName
     var userEmail = ''
     var passWord = ''
     var registrantToken = ''
@@ -32,7 +35,6 @@ const Assambles = () => {
             "role": role
         }
         const resp = await JoinMeeting(obj);
-        console.log("resp: ", resp)
         if (resp !== '') {
             startMeeting(resp)
         } else {

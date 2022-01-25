@@ -27,11 +27,7 @@ const Votes = () => {
         } else {
             Swal.fire('alert', `${resp.message}`, 'danger');
         }
-        console.log("resp: ", resp)
     }
-
-    console.log("choise: ", choise)
-    console.log("idQuestion: ", idQuestion)
 
     useEffect(() => {
         showActiveVotes();
