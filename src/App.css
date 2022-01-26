@@ -1,3 +1,41 @@
-#zmmtg-root {
+html,
+body {
+  overflow: auto;
+}
+
+body > #zmmtg-root {
+  display: none;
+}
+
+#zmmtg-root,
+.meeting-client,
+.meeting-client-inner {
+  width: 80%;
+  height: 450px;
+  position: relative;
+}
+
+#wc-footer {
+  bottom: auto !important;
+  width: 100% !important;
+}
+
+#dialog-join {
+  width: auto !important;
+}
+
+#sv-active-video,
+.active-main,
+#sv-active-speaker-view,
+.main-layout {
+  height: auto !important;
+  width: 100% !important;
+}
+
+.suspension-window {
+  transform: translate(-444px, 10px) !important;
+}
+
+#dialog-invite {
   display: none;
 }

@@ -5,6 +5,7 @@ import { JoinMeeting } from '../../axios/assamblesPetition';
 import { apiAddress } from '../../api/api';
 import Header from '../common/header';
 import Votes from './votes';
+import Footer from '../common/footer';
 
 
 ZoomMtg.setZoomJSLib('https://source.zoom.us/2.1.1/lib', '/av');
@@ -44,7 +45,8 @@ const Assambles = () => {
 
 
     const startMeeting = (signature) => {
-        document.getElementById('zmmtg-root').style.display = 'block'
+        document.getElementById('zmmtg-root').style.display = 'block';
+        document.getElementById('zmmtg-root').style.backgroundColor = 'transparent';
 
         ZoomMtg.init({
             leaveUrl: leaveUrl,
@@ -110,6 +112,9 @@ const Assambles = () => {
                     </div>
                 </div>
             </div>
+            {/* <div className='row'>
+                <Footer />
+            </div> */}
         </div>
     );
 }

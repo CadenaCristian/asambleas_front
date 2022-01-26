@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { getAllusers } from '../../../axios/usersPetition';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { GetAllGroups } from '../../../axios/groupsPetition';
+import AddUpdateUser from './addUpdateUser';
 
 const Users = () => {
 
@@ -21,6 +22,7 @@ const Users = () => {
         setGroups(resp);
     }
 
+    console.log("users: ", users)
     useEffect(() => {
         listUsers();
         listGroups();
@@ -46,7 +48,7 @@ const Users = () => {
                     </select>
                 </div>
                 <button className='btn btn-primary col-md-1 m-1'>Filtrar</button>
-                <button className='btn btn-primary col-md-2 m-1'>Agregar usuario</button>
+                <button className='btn btn-primary col-md-2 m-1' data-bs-toggle="modal" data-bs-target="#voteModal">Agregar usuario</button>
                 <button className='btn btn-outline-success col-md-2 offset-2'> Cargar excel con usuarios</button>
             </div>
             <div className='row'>
@@ -74,14 +76,29 @@ const Users = () => {
                                         <td>{dat.rol}</td>
                                         <td>{dat.vote === true ? "SI" : "NO"}</td>
                                         <td>
-                                            <button className='btn btn-warning col-md-6'>Edit</button>
-                                            <button className='btn btn-danger col-md-6'>Delete</button>
+                                            <button className='btn btn-warning col-md-6'>Editar</button>
+                                            <button className='btn btn-danger col-md-6'>Eliminar</button>
                                         </td>
                                     </tr>)}
                             </tbody>
                         </table>
                 }
             </div>
+
+            <div className="modal fade" id="voteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title" id="exampleModalLabel">Agregar nuevo usuario</h5>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div className="modal-body">
+                            <AddUpdateUser />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     )
 }

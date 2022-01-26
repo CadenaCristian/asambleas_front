@@ -8,6 +8,7 @@ import Footer from '../common/footer';
 
 const Login = () => {
 
+    const greeting = 'Welcome to React';
     const navigate = useNavigate();
     const [dataUserValue, setdataUserValue] = useState({ name: "", password: "" })
     const { name, password } = dataUserValue;
