@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { getAllusers } from '../../../axios/usersPetition';
+import { deleteOldUser, getAllusers } from '../../../axios/usersPetition';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Swal from 'sweetalert2';
 import { GetAllGroups } from '../../../axios/groupsPetition';
-import AddUpdateUser from './addUpdateUser';
+import AddUser from './addUser';
+import UpdateUser from './UpdateUser';
 
 const Users = () => {
 
     const [groups, setGroups] = useState([]);
     const [users, setUsers] = useState([]);
-    const [dropDownFilter, setDropDownFilter] = useState("Seleccione una agrupación")
+    const [updateUser, setUpdateUser] = useState({});
+    const [dropDownFilter, setDropDownFilter] = useState("Seleccione una agrupación");
     const [dropDownAddUser, setDropDownAddUser] = useState("Seleccione una agrupación")
 
     const listUsers = async () => {
@@ -22,7 +25,17 @@ const Users = () => {
         setGroups(resp);
     }
 
-    console.log("users: ", users)
+    const deleteUser = async (id) => {
+        const resp = await deleteOldUser(id);
+        if (resp.status === "200") {
+            Swal.fire('alert', `${resp.message}`, 'success');
+            let link = document.getElementById('btn-close');
+            link.click();
+        } else {
+            Swal.fire('alert', `${resp.message}`, 'danger');
+        }
+    }
+
     useEffect(() => {
         listUsers();
         listGroups();
@@ -31,7 +44,6 @@ const Users = () => {
     return (
         <div className='container-fluid' style={{ height: '70vh', overflow: 'auto' }}>
             <div className='row'>
-                {/* <button className='btn btn-outline-primary col-md-3 m-1'> Añadir un nuevo usuario</button> */}
                 <div className='col-md-4 m-1'>
                     <select class="form-select form-select-md" aria-label=".form-select-lg example">
                         <option selected>{dropDownFilter}</option>
@@ -48,7 +60,7 @@ const Users = () => {
                     </select>
                 </div>
                 <button className='btn btn-primary col-md-1 m-1'>Filtrar</button>
-                <button className='btn btn-primary col-md-2 m-1' data-bs-toggle="modal" data-bs-target="#voteModal">Agregar usuario</button>
+                <button className='btn btn-primary col-md-2 m-1' data-bs-toggle="modal" data-bs-target="#addModal">Agregar usuario</button>
                 <button className='btn btn-outline-success col-md-2 offset-2'> Cargar excel con usuarios</button>
             </div>
             <div className='row'>
@@ -76,8 +88,8 @@ const Users = () => {
                                         <td>{dat.rol}</td>
                                         <td>{dat.vote === true ? "SI" : "NO"}</td>
                                         <td>
-                                            <button className='btn btn-warning col-md-6'>Editar</button>
-                                            <button className='btn btn-danger col-md-6'>Eliminar</button>
+                                            <button className='btn btn-warning col-md-6' data-bs-toggle="modal" data-bs-target="#updateUserModal" onClick={() => setUpdateUser(dat)}>Editar</button>
+                                            <button className='btn btn-danger col-md-6' onClick={() => deleteUser(dat._id)}>Eliminar</button>
                                         </td>
                                     </tr>)}
                             </tbody>
@@ -85,20 +97,33 @@ const Users = () => {
                 }
             </div>
 
-            <div className="modal fade" id="voteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div className="modal fade" id="addModal" tabindex="-1" aria-labelledby="addUserModal" aria-hidden="true">
                 <div className="modal-dialog">
                     <div className="modal-content">
                         <div className="modal-header">
-                            <h5 className="modal-title" id="exampleModalLabel">Agregar nuevo usuario</h5>
+                            <h5 className="modal-title" id="addUserModal">Agregar nuevo usuario</h5>
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div className="modal-body">
-                            <AddUpdateUser />
+                            <AddUser />
                         </div>
                     </div>
                 </div>
             </div>
 
+            <div className="modal fade" id="updateUserModal" tabindex="-1" aria-labelledby="addUserModal" aria-hidden="true">
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title" id="addUserModal">Actualizar usuario</h5>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div className="modal-body">
+                            <UpdateUser updateUser={updateUser} />
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     )
 }

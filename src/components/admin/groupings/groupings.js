@@ -1,12 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import BootstrapSwitchButton from 'bootstrap-switch-button-react';
-import { GetAllGroups } from '../../../axios/groupsPetition';
-import { GetAllQuestions, GetAllQuestionsById, UpdateQuestionById } from '../../../axios/assamblesPetition';
+import Swal from 'sweetalert2';
+import { AddGroup, DeleteGroup, GetAllGroups, UpdateGroup } from '../../../axios/groupsPetition';
+import { UpdateQuestionById } from '../../../axios/assamblesPetition';
+import ListQuestions from './questions/listQuestions';
 
 const Groupings = () => {
     const [groups, setGroups] = useState([]);
-    const [assambles, setAssambles] = useState([]);
+    const [groupId, setGroupId] = useState();
+    const [alertState, setAlertState] = useState("block");
+    const [questionsState, setQuestiosnState] = useState("none");
+    const [addGroupingState, setAddGroupingState] = useState("none");
+    const [updateGroupingState, setupdateGroupingState] = useState("none");
+    const [dataGroup, setdataGroup] = useState({})
+
+    const setData = ({ target }) => {
+        setdataGroup({
+            ...dataGroup,
+            [target.name]: target.value,
+        });
+    }
+
+    console.log("dataGroup: ", dataGroup)
 
     const listGroups = async () => {
         const resp = await GetAllGroups();
@@ -14,19 +29,62 @@ const Groupings = () => {
         console.log("resp: ", resp)
     }
 
-    const listQuestionsById = async (e) => {
-        const resp = await GetAllQuestionsById(e.target.id)
-        setAssambles(resp)
+    const listById = async (id) => {
+        setGroupId(id)
+        setAlertState("none")
+        setQuestiosnState("block")
+        setAddGroupingState("none")
+        setAddGroupingState("none")
     }
 
-    const UpdateQuestionState = async (id, state) => {
-        state = state === true ? false : true
-        let obj = {
-            "state": state
-        }
-        const resp = await UpdateQuestionById(id, obj)
-        // setAssambles(resp);
+    const showAddGroup = () => {
+        console.log("showAddGroup: entre")
+        setAlertState("none")
+        setQuestiosnState("none")
+        setupdateGroupingState("none")
+        setAddGroupingState("block")
     }
+
+    const saveNewGroup = async () => {
+        const resp = await AddGroup(dataGroup)
+        if (resp.status === "200") {
+            Swal.fire('alert', `${resp.message}`, 'success');
+            listGroups();
+        } else {
+            Swal.fire('alert', `${resp.message}`, 'danger');
+        }
+    }
+
+    const showEditGroup = (data) => {
+        setdataGroup(data);
+        setAlertState("none")
+        setQuestiosnState("none")
+        setupdateGroupingState("block")
+        setAddGroupingState("none")
+    }
+
+    const updateGroup = async () => {
+        let id = dataGroup._id
+        delete dataGroup._id
+        const resp = await UpdateGroup(id, dataGroup)
+        if (resp.status === "200") {
+            Swal.fire('alert', `${resp.message}`, 'success');
+            listGroups();
+        } else {
+            Swal.fire('alert', `${resp.message}`, 'danger');
+        }
+    }
+
+    const deleteGroup = async (id) => {
+        const resp = await DeleteGroup(id)
+        if (resp.status === "200") {
+            Swal.fire('alert', `${resp.message}`, 'success');
+            listGroups();
+        } else {
+            Swal.fire('alert', `${resp.message}`, 'danger');
+        }
+    }
+
     useEffect(() => {
         listGroups();
     }, [])
@@ -35,7 +93,7 @@ const Groupings = () => {
         <div className='container-fluid' style={{ height: '70vh', overflow: 'auto' }}>
             <div className='row'>
                 <div className='col-md-6'>
-                    <button className='btn btn-outline-primary col-md-12'> Añadir asamblea nueva</button>
+                    <button type='button' className='btn btn-outline-primary col-md-12' onClick={() => showAddGroup()}> Añadir asamblea nueva</button>
                     {
                         groups === [] ?
                             <div className="alert alert-warning" role="alert">
@@ -56,9 +114,9 @@ const Groupings = () => {
                                             <td>{dat.name_group}</td>
                                             <td>{dat.id_meeting}</td>
                                             <td>
-                                                <button type='button' id={dat._id} onClick={(e) => listQuestionsById(e)} className='btn btn-warning col-md-4'>E</button>
-                                                <button type='button' id={dat._id} onClick={(e) => listQuestionsById(e)} className='btn btn-danger col-md-4'>D</button>
-                                                <button type='button' id={dat._id} onClick={(e) => listQuestionsById(e)} className='btn btn-primary col-md-4'>S</button>
+                                                <button type='button' onClick={() => showEditGroup(dat)} className='btn btn-warning col-md-4'>E</button>
+                                                <button type='button' onClick={() => deleteGroup(dat._id)} className='btn btn-danger col-md-4'>D</button>
+                                                <button type='button' onClick={() => listById(dat._id)} className='btn btn-primary col-md-4'>S</button>
                                             </td>
                                         </tr>
                                     )}
@@ -67,55 +125,37 @@ const Groupings = () => {
                     }
                 </div>
                 <div className='col-md-6'>
-                    {assambles.length === 0 ?
-                        <div className="alert alert-warning" role="alert">
-                            Seleccione una samblea, para ver las preguntas que tiene dicha asamblea
+                    <div className="alert alert-warning" role="alert" style={{ display: alertState }}>
+                        Seleccione una samblea, para ver las preguntas que tiene dicha asamblea
+                    </div>
+
+                    <div style={{ display: questionsState }}>
+                        <ListQuestions group_id={groupId} />
+                    </div>
+                    {/* Inicio de añadir nueva asamblea */}
+                    <div style={{ display: addGroupingState }}>
+                        <h4 className='text-center'> Añadir asamblea nueva </h4>
+                        <input type="text" className="form-control mt-1" name='name_group' onChange={setData} placeholder='Nombre de agrupación' />
+                        <input type="number" className="form-control mt-1" name='id_meeting' onChange={setData} placeholder='Id zoomm' />
+                        <div className='row justify-content-center'>
+                            <button className='btn btn-outline-success col-md-4 mt-3' onClick={saveNewGroup}>
+                                Agregar asamblea
+                            </button>
                         </div>
-                        :
-                        <div>
-                            <button className='btn btn-outline-primary col-md-12'> Añadir nueva pregunta</button>
-                            {assambles.data?.map((dat, index) =>
-                                <div key={index} className="accordion mt-2" id={`accordion${index}`}>
-                                    <div className="accordion-item">
-                                        <h2 className="accordion-header" id={`heading${index}`}>
-                                            <button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target={`#collapse${index}`} aria-expanded="true" aria-controls="collapseOne">
-                                                {dat.question_name}
-                                            </button>
-                                        </h2>
-                                        <div id={`collapse${index}`} className="accordion-collapse collapse hide" aria-labelledby={`heading${index}`} data-bs-parent={`#accordion${index}`}>
-                                            <div className="accordion-body">
-                                                <BootstrapSwitchButton
-                                                    checked={dat.state}
-                                                    onlabel='Activo'
-                                                    onstyle='success'
-                                                    offlabel='Inactivo'
-                                                    offstyle='danger'
-                                                    width={100}
-                                                    onChange={() => { UpdateQuestionState(dat._id, dat.state) }}
-                                                />
-                                                <table className="table table-hover text-center">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Usuario</th>
-                                                            <th>Respuesta</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        {dat.voter?.map((vot, index) =>
-                                                            <tr key={index}>
-                                                                <td>{vot.name}</td>
-                                                                <td>{dat.answer_options[vot.answer_user]}</td>
-                                                            </tr>
-                                                        )}
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            )}
+                    </div>
+                    {/* Fianl de añadir nueva asamblea */}
+                    {/* Inicio de actualizar asamblea */}
+                    <div style={{ display: updateGroupingState }}>
+                        <h4 className='text-center'> Actualizar asamblea </h4>
+                        <input type="text" className="form-control mt-1" name='name_group' value={dataGroup.name_group} onChange={setData} placeholder='Nombre de agrupación' />
+                        <input type="number" className="form-control mt-1" name='id_meeting' value={dataGroup.id_meeting} onChange={setData} placeholder='Id zoomm' />
+                        <div className='row justify-content-center'>
+                            <button className='btn btn-outline-success col-md-4 mt-3' onClick={updateGroup}>
+                                Actualizar asamblea
+                            </button>
                         </div>
-                    }
+                    </div>
+                    {/* Fianl de actualizar asamblea */}
                 </div>
             </div>
         </div >

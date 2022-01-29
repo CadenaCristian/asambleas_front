@@ -19,7 +19,7 @@ export const JoinMeeting = (obj) => {
 
 export const GetAllQuestions = () => {
     const userData = JSON.parse(localStorage.getItem('userData'));
-    return axios.get(`${apiAddress}assambles/allQuestions`, {
+    return axios.get(`${apiAddress}questions/allQuestions`, {
         headers: {
             'Accept': 'application/json', 'Content-Type': 'application/json', 'authorization': userData.token
         }
@@ -32,7 +32,7 @@ export const GetAllQuestions = () => {
 
 export const GetActiveQuestions = () => {
     const userData = JSON.parse(localStorage.getItem('userData'));
-    return axios.get(`${apiAddress}assambles/${userData.groupId}/true`, {
+    return axios.get(`${apiAddress}questions/${userData.groupId}/true`, {
         headers: {
             'Accept': 'application/json', 'Content-Type': 'application/json', 'authorization': userData.token
         }
@@ -45,7 +45,7 @@ export const GetActiveQuestions = () => {
 
 export const GetAllQuestionsById = (id) => {
     const userData = JSON.parse(localStorage.getItem('userData'));
-    return axios.get(`${apiAddress}assambles/${id}`, {
+    return axios.get(`${apiAddress}questions/${id}`, {
         headers: {
             'Accept': 'application/json', 'Content-Type': 'application/json', 'authorization': userData.token
         }
@@ -59,7 +59,7 @@ export const GetAllQuestionsById = (id) => {
 export const UpdateQuestionById = (id, obj) => {
     const body = JSON.stringify(obj);
     const userData = JSON.parse(localStorage.getItem('userData'));
-    return axios.put(`${apiAddress}assambles/changeState/${id}`, body, {
+    return axios.put(`${apiAddress}questions/changeState/${id}`, body, {
         headers: {
             'Accept': 'application/json', 'Content-Type': 'application/json', 'authorization': userData.token
         },
@@ -76,7 +76,22 @@ export const SaveVote = (idQuestion, answer_choise) => {
     const body = { "id": userData._id, "name": userData.name, "answer_user": answer_choise }
     console.log("idQuestion: ", idQuestion)
     console.log("body: ", body)
-    return axios.put(`${apiAddress}assambles/saveVote/${idQuestion}`, body, {
+    return axios.put(`${apiAddress}questions/saveVote/${idQuestion}`, body, {
+        headers: {
+            'Accept': 'application/json', 'Content-Type': 'application/json', 'authorization': userData.token
+        },
+        body: body
+    })
+        .then(res => res.data)
+        .catch(error => {
+            console.error(error)
+        })
+}
+
+export const SaveQuestion = (obj) => {
+    const body = JSON.stringify(obj)
+    const userData = JSON.parse(localStorage.getItem('userData'));
+    return axios.post(`${apiAddress}questions`, body, {
         headers: {
             'Accept': 'application/json', 'Content-Type': 'application/json', 'authorization': userData.token
         },

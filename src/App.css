@@ -1,6 +1,12 @@
 html,
 body {
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: none;
+}
+
+.meeting-info-container,
+.meeting-info-container--right-side {
+  display: none;
 }
 
 body > #zmmtg-root {
@@ -8,11 +14,37 @@ body > #zmmtg-root {
 }
 
 #zmmtg-root,
+.root-inner,
+.main-content {
+  width: 100%;
+}
+
+#zmmtg-root,
 .meeting-client,
 .meeting-client-inner {
-  width: 80%;
-  height: 450px;
+  width: 100%;
+  height: 650px;
   position: relative;
+}
+
+#zmmtg-root,
+.root-inner,
+.meeting-app,
+.meeting-client,
+.meeting-client-inner,
+#wc-content,
+#wc-container-left,
+.sharee-container {
+  margin-top: 5%;
+}
+#zmmtg-root,
+.root-inner,
+.meeting-app,
+.meeting-client,
+.meeting-client-inner,
+#wc-content,
+#wc-container-right {
+  margin-top: 9%;
 }
 
 #wc-footer {

@@ -46,7 +46,8 @@ const Assambles = () => {
 
     const startMeeting = (signature) => {
         document.getElementById('zmmtg-root').style.display = 'block';
-        document.getElementById('zmmtg-root').style.backgroundColor = 'transparent';
+        // document.getElementById('aria-notify-area').style.display = 'none';
+        // document.getElementById('zmmtg-root').style.backgroundColor = 'transparent';
 
         ZoomMtg.init({
             leaveUrl: leaveUrl,
@@ -81,22 +82,18 @@ const Assambles = () => {
             <div className='row'>
                 <Header />
             </div>
-            <div className='row justify-content-md-center mt-3'>
-                <div className='col-md-6'>
+            <div className='row justify-content-md-center mt-1'>
+                <div className='col-md-4'>
                     <button className='btn btn-outline-primary col-md-6' data-bs-toggle="modal" data-bs-target="#voteModal">
                         VER VOTACIÓN
                     </button>
                 </div>
-                <div className='col-md-6'><button className='btn btn-outline-primary col-md-6'>VER QUORUM</button></div>
-            </div>
-            <div className='row mt-3'>
-                <main>
-                    <h1>Reunión por zoom</h1>
-
+                <div className='col-md-4'>
                     <button className='btn btn-primary' onClick={getSignature}>Unirse a la reunión</button>
-                </main>
-            </div>
-            <div className='row mt-3'>
+                </div>
+                <div className='col-md-4'>
+                    <button className='btn btn-outline-primary col-md-6'>VER QUORUM</button>
+                </div>
             </div>
 
             <div className="modal fade" id="voteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
